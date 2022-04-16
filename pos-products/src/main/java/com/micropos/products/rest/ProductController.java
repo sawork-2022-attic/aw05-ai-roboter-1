@@ -1,11 +1,12 @@
 package com.micropos.products.rest;
 
-import com.micropos.products.api.ProductsApi;
+import com.micropos.products.api.ProductApi;
 import com.micropos.products.dto.ProductDto;
 import com.micropos.products.mapper.ProductMapper;
 import com.micropos.products.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +15,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api")
-public class ProductController implements ProductsApi {
+@CrossOrigin
+public class ProductController implements ProductApi {
 
     private final ProductMapper productMapper;
 
@@ -33,5 +35,14 @@ public class ProductController implements ProductsApi {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<ProductDto> showProductById(String productId) {
+        var product = this.productService.getProduct(productId);
+        if (product == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<ProductDto>(this.productMapper.toProductDto(product), HttpStatus.OK);
     }
 }

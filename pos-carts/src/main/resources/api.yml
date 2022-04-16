@@ -1,0 +1,165 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Cart
+  license:
+    name: MIT
+paths:
+  /item:
+    get:
+      summary: cart items
+      description: get cart's items
+      operationId: showCartItems
+      responses:
+        '200':
+          description: An array of items
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cart"
+
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /item/{productId}:
+    post:
+      summary: add item
+      description: add new item
+      operationId: addItem
+      parameters:
+        - name: productId
+          in: path
+          description: The ID of product.
+          required: true
+          schema:
+            type: string
+            example: 12131
+      requestBody:
+        description: The item
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemFiled"
+        required: true
+      responses:
+        200:
+          description: "add successfully"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+
+
+    put:
+      description: update item quantity
+      operationId: updateItem
+      parameters:
+        - name: productId
+          in: path
+          description: The ID of product.
+          required: true
+          schema:
+            type: string
+            example: 12131
+      requestBody:
+        description: item that need to update
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemFiled"
+        required: true
+
+      responses:
+        200:
+          description: "update successfully"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+
+    delete:
+      summary: delete item
+      description: delete the item whose id is the product id
+      operationId: deleteItem
+      parameters:
+        - name: productId
+          in: path
+          description: the id of product to be deleted
+          required: true
+          schema:
+            type: string
+            example: 123124
+      responses:
+        200:
+          description: "respond for delete request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+
+
+
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        image:
+          type: string
+
+    ItemFiled:
+      description: Editable fields of Item
+      type: object
+      properties:
+        quantity:
+          type: integer
+
+    Item:
+      properties:
+        product:
+          $ref: "#/components/schemas/Product"
+        quantity:
+          type: integer
+
+
+    Cart:
+      type: array
+      items:
+        $ref: "#/components/schemas/Item"
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+
+    Message:
+      type: object
+      required:
+        - success
+        - message
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+

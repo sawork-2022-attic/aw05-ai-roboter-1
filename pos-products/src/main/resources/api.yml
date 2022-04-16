@@ -5,7 +5,7 @@ info:
   license:
     name: MIT
 paths:
-  /products:
+  /product:
     get:
       summary: List all products
       operationId: listProducts
@@ -24,7 +24,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /products/{productId}:
+
+  /product/{productId}:
     get:
       summary: Info for a specific product
       operationId: showProductById
@@ -44,6 +45,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Product"
+        '404':
+          description: Product not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         default:
           description: unexpected error
           content:
@@ -63,13 +70,14 @@ components:
         name:
           type: string
         price:
-          type: double
+          type: number
         image:
           type: string
     Products:
       type: array
       items:
         $ref: "#/components/schemas/Product"
+
     Error:
       type: object
       required:

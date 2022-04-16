@@ -1,0 +1,33 @@
+
+server:
+  port: 8761
+
+spring:
+  application:
+    name: discovery-server
+
+# Avoid some debugging logs at startup
+logging:
+  level:
+    org:
+      springframework:
+        boot: INFO
+        web: INFO
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+
+eureka:
+  instance:
+    hostname: localhost
+  # standalone mode
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
