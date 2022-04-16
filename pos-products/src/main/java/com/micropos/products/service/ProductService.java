@@ -7,9 +7,9 @@ import java.util.List;
 public interface ProductService {
 
 
-    public List<Product> products();
+    List<Product> products();
 
-    public Product getProduct(String id);
+    Product getProduct(String id);
 
-    public Product randomProduct();
+    Product randomProduct();
 }

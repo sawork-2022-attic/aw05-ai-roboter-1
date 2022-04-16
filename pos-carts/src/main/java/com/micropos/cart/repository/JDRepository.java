@@ -45,7 +45,6 @@ public class JDRepository implements ProductRepository {
         return null;
     }
 
-    @HystrixCommand(fallbackMethod = "productsError")
     public List<Product> products() {
         String url = "http://product-service/api/product";
         var products = restTemplate.getForObject(url, Product[].class);

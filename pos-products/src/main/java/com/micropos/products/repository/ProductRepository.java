@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface ProductRepository {
 
-    public List<Product> allProducts();
+    List<Product> allProducts();
 
-    public Product findProduct(String productId);
+    Product findProduct(String productId);
 
 }
